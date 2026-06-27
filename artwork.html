@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artwork – Maryse De Bruyn</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="artwork-page">
+  <header class="site-header">
+    <a class="wordmark" href="index.html">Maryse De Bruyn</a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="works.html">Works</a>
+      <a href="projects.html">Projects</a>
+      <a href="books.html">Books</a>
+      <a href="expo.html">Expo</a>
+      <a href="atelier.html">Atelier</a>
+    </nav>
+  </header>
+
+  <main class="artwork">
+    <a class="artwork-back" href="#" onclick="history.back();return false;">&larr; Back</a>
+
+    <div class="artwork-layout">
+      <div class="artwork-image">
+        <img id="art-img" src="" alt="">
+      </div>
+
+      <aside class="artwork-info">
+        <h1 class="artwork-title" id="art-title">Untitled</h1>
+        <p class="artwork-year" id="art-year"></p>
+        <div class="artwork-details" id="art-details"></div>
+        <a class="artwork-buy" id="art-buy" href="#">Inquire about purchase</a>
+        <p class="artwork-note">You'll be taken to email to send your inquiry directly to the artist.</p>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var EMAIL = "debruynmaryse@gmail.com";
+      var data = {};
+      try { data = JSON.parse(sessionStorage.getItem("mdb_artwork")) || {}; } catch (e) {}
+
+      // No artwork selected — send the visitor back to the works page.
+      if (!data.src) { window.location.replace("works.html"); return; }
+
+      var img = document.getElementById("art-img");
+      img.src = data.src;
+      img.alt = data.alt || data.title || "";
+
+      var title = data.title || "Untitled";
+      document.getElementById("art-title").textContent = title;
+      document.title = title + " – Maryse De Bruyn";
+
+      var yearEl = document.getElementById("art-year");
+      if (data.year) { yearEl.textContent = data.year; } else { yearEl.style.display = "none"; }
+
+      var detailsEl = document.getElementById("art-details");
+      if (data.details) {
+        detailsEl.textContent = data.details;
+      } else {
+        detailsEl.innerHTML =
+          '<p class="artwork-placeholder">For dimensions, medium, availability and pricing, please get in touch.</p>';
+      }
+
+      var subject = "Purchase inquiry: " + title;
+      var body =
+        "Hello Maryse,\n\nI'm interested in purchasing \"" + title + "\"" +
+        (data.year ? " (" + data.year + ")" : "") +
+        ".\nCould you let me know about availability, dimensions and price?\n\nThank you,\n";
+      document.getElementById("art-buy").href =
+        "mailto:" + EMAIL +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+    })();
+  </script>
+</body>
+</html>

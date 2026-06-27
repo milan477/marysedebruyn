@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maryse De Bruyn</title>
+  <script>
+    // Pick the hero before the page renders and preload it immediately,
+    // so the download starts during parsing instead of after scripts run.
+    // o: orientation — "l" landscape (wide), "p" portrait (tall).
+    var heroImages = [
+      { src: "images/Vriendschap-791x1024.jpg",         o: "p" },
+      { src: "images/zondvloed.jpg",                     o: "p" },
+      { src: "images/Vlucht-scaled.jpg",                 o: "l" },
+      { src: "images/Papa-scaled.jpg",                   o: "p" },
+      { src: "images/Geketend-scaled.jpg",               o: "p" },
+      { src: "images/Schaamte100pct-scaled.jpg",         o: "p" },
+      { src: "images/Negen-Levens-scaled.jpg",           o: "p" },
+      { src: "images/Verdwaald-in-de-Darmen-scaled.jpg", o: "p" },
+      { src: "images/Maaginhoud-scaled.jpg",             o: "l" },
+      { src: "images/Ongeloof-scaled.jpg",               o: "p" },
+      { src: "images/Kleine-Figaro-scaled.jpg",          o: "p" },
+      { src: "images/Hart-scaled.jpg",                   o: "p" },
+      { src: "images/Duik-in-de-Diepte.jpg",             o: "p" }
+    ];
+    // Show images whose orientation matches the screen shape; if none match
+    // (e.g. only portrait images on a wide screen), fall back to all.
+    function heroSet() {
+      var want = window.innerWidth >= window.innerHeight ? "l" : "p";
+      var set = heroImages.filter(function (im) { return im.o === want; });
+      return set.length ? set : heroImages;
+    }
+    var heroSetActive = heroSet();
+    var heroSrc = heroSetActive[Math.floor(Math.random() * heroSetActive.length)].src;
+    var pl = document.createElement('link');
+    pl.rel = 'preload'; pl.as = 'image'; pl.href = heroSrc; pl.fetchPriority = 'high';
+    document.head.appendChild(pl);
+  </script>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="home">
+  <header class="site-header">
+    <a class="wordmark" href="index.html">Maryse De Bruyn</a>
+    <nav class="site-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="works.html">Catalog</a>
+      <a href="projects.html">Projects</a>
+      <a href="books.html">Books</a>
+      <a href="expo.html">Expo</a>
+      <a href="atelier.html">Atelier</a>
+    </nav>
+  </header>
+  <main class="hero">
+    <a class="hero-link" href="works.html"><img id="heroImage" fetchpriority="high" alt="Maryse De Bruyn"></a>
+  </main>
+  <button class="hero-next" id="heroNext" type="button" aria-label="Next image">&rarr;</button>
+  <footer class="site-footer">
+    <a href="mailto:debruynmaryse@gmail.com">debruynmaryse@gmail.com</a>
+    <a href="https://www.instagram.com/marysedebruyn/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://be.linkedin.com/in/maryse-de-bruyn-029b29270" target="_blank" rel="noopener">LinkedIn</a>
+  </footer>
+  <script>
+    document.getElementById('heroImage').src = heroSrc;
+    (function () {
+      var img = document.getElementById('heroImage');
+      var set = heroSetActive;
+      var i = 0;
+      for (var k = 0; k < set.length; k++) { if (set[k].src === heroSrc) { i = k; break; } }
+
+      document.getElementById('heroNext').addEventListener('click', function () {
+        i = (i + 1) % set.length;
+        img.src = set[i].src;
+      });
+
+      // When the screen flips between wide and tall, swap to the matching set.
+      var lastWide = window.innerWidth >= window.innerHeight;
+      window.addEventListener('resize', function () {
+        var wide = window.innerWidth >= window.innerHeight;
+        if (wide === lastWide) return;
+        lastWide = wide;
+        set = heroSet();
+        i = 0;
+        img.src = set[0].src;
+      });
+    })();
+  </script>
+  <script src="assets/gallery.js"></script>
+</body>
+</html>

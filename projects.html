@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects – Maryse De Bruyn</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="slider">
+  <header class="site-header">
+    <a class="wordmark" href="index.html">Maryse De Bruyn</a>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="works.html">Catalog</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="books.html">Books</a>
+      <a href="expo.html">Expo</a>
+      <a href="atelier.html">Atelier</a>
+    </nav>
+  </header>
+  <div class="slider-track" id="track">
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/kerstkaartje2-1024x1024.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">Christmas card</span><span class="cap-year">2025</span></div>
+    </section>
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/a62b2a84422ed777.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">Artwork ‘Mendoza’ made on commission as a present</span><span class="cap-year">2024</span></div>
+    </section>
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/f76fac135fc89dee.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">Artwork ‘Paradijs’ made on commission as a present</span><span class="cap-year">2024</span></div>
+    </section>
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/2b1e93605553c71d.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">One page comic: GRID, for Pulp de Luxe</span><span class="cap-year">2024</span></div>
+    </section>
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/b82a6f79dd6411da.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">Illustration for the Nationale Expo: ‘Nakende Natuur’</span><span class="cap-year">2024</span></div>
+    </section>
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/f8c74d5323580fae.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">Illustration for Openbaar Kunstbezit Vlaanderen</span><span class="cap-year">2024</span></div>
+    </section>
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/Andre2-2-629x1024.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">Illustration for a funeral</span><span class="cap-year">2024</span></div>
+    </section>
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/688c3f8bbeb08175.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">Illustration for KASKcinema</span><span class="cap-year">2023</span></div>
+    </section>
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/kaartje-kaskcinema-vkak2-2-1024x726.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">Illustration for KASKcinema</span><span class="cap-year">2023</span></div>
+    </section>
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/3813360270fb76d5.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">Illustration for the album of ‘Kwa Kwa’</span><span class="cap-year">2023</span></div>
+    </section>
+    <section class="slide">
+      <div class="slide-img"><img loading="lazy" src="images/ea06fecf16da343d.jpg" alt=""></div>
+      <div class="slide-caption"><span class="cap-title">Artwork made on commission as a wedding present</span></div>
+    </section>
+  </div>
+  <button class="slider-nav prev" aria-label="Previous">&#8592;</button>
+  <button class="slider-nav next" aria-label="Next">&#8594;</button>
+  <div class="slider-counter"><span id="cur">01</span> / 11</div>
+  <script>
+    var track = document.getElementById('track');
+    var cur = document.getElementById('cur');
+    var slides = Array.prototype.slice.call(track.querySelectorAll('.slide'));
+    var n = slides.length;
+    function viewCenter(){ return track.scrollLeft + window.innerWidth/2; }
+    function index(){
+      var c = viewCenter(), best = 0, bd = Infinity;
+      slides.forEach(function(s,i){
+        var d = Math.abs((s.offsetLeft + s.offsetWidth/2) - c);
+        if(d < bd){ bd = d; best = i; }
+      });
+      return best;
+    }
+    function update(){ cur.textContent = String(index()+1).padStart(2,'0'); }
+    function go(d){
+      var s = slides[Math.max(0, Math.min(n-1, index()+d))];
+      track.scrollTo({left: s.offsetLeft + s.offsetWidth/2 - window.innerWidth/2, behavior:'smooth'});
+    }
+    track.addEventListener('scroll', update, {passive:true});
+    document.querySelector('.slider-nav.prev').addEventListener('click', function(){go(-1);});
+    document.querySelector('.slider-nav.next').addEventListener('click', function(){go(1);});
+    document.addEventListener('keydown', function(e){
+      if(e.key==='ArrowRight') go(1);
+      if(e.key==='ArrowLeft') go(-1);
+    });
+  </script>
+</body>
+</html>
